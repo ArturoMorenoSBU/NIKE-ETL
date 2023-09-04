@@ -1,5 +1,4 @@
 # Hello world!
-This is the walkthrough of my project to Data-Engineering-101
 The scope I used for this project is a ETL pipeline.
 
 
@@ -13,7 +12,8 @@ The scope I used for this project is a ETL pipeline.
 7. Use of Hue as an open-source SQL Assistant for Databases & Data Warehouses, for the query and the report.
 
 
-![WhatsApp Image 2023-08-24 at 10 06 39 PM (1)](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/ff674a43-0da7-4b49-bc4f-e5e239f5f3b2)
+![1](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/986bc7ad-9d18-42a7-818e-31af85e7eafa)
+
 
 
 ## Docker-compose overview.
@@ -34,7 +34,8 @@ Run the containers with the following command.
     docker-compose up -d
 
 ### Right!, the containers are up now.
-<img width="464" alt="Captura de pantalla 2023-08-23 a la(s) 21 07 54" src="https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/d0d13acb-bc27-4e3f-bc45-4d3e2f2049b9">
+![2](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/c0719b86-fdf6-43f8-8cef-dba493be6597)
+
 
 
 ## The orchestrator
@@ -44,35 +45,42 @@ This is an overall view of the dag.
 
 
 ## Let's take a look every task in the Nike DAG.
-![Captura de pantalla 2023-08-23 a la(s) 21 19 45](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/263b5525-a852-40cf-8503-d558537347f9)
+![3](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/9edeeab7-9f1a-4818-8aa7-be6cced4fc61)
+
 
 The dag is in this directory: /mnt/airflow/dags/nike_pipeline.py
 
 1. **getTheData_fromNike**: This task helps us to run the **file nikescrapi.py** that is into the **/mnt/airflow/dags/scrapper/**
    In this task, I used the BashOperator to run the scrap script.
-   ![Captura de pantalla 2023-08-23 a la(s) 21 54 31](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/c555b63d-e441-4b4d-bb5a-bd34309bea80)
+![4](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/38d81b31-bd7f-4847-abbb-1d67739bef71)
+
 
    
 2. **SavingInHdfs**: For this task we define the partitions into the hdsf, first I created a **/raw_nike** directory to put all the files with the following distribution:
    
-    ![Captura de pantalla 2023-08-23 a la(s) 21 47 35](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/a8bdfa86-f4d6-4498-8d9d-14f93f7c8c89)
+    ![5](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/5f4b21e5-6c00-420e-b8f5-c6b3314f41da)
+
 
 
      To do that, the task was accomplished with a bash operator
-   ![Captura de pantalla 2023-08-23 a la(s) 22 03 01](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/99ae9752-de98-49d3-a711-66469f833cea)
+   ![6](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/eecbd049-c52b-47f8-b7ee-01300065c075)
 
- 
-    <img width="587" alt="Captura de pantalla 2023-08-23 a la(s) 21 29 43" src="https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/b38b9d9e-af44-4441-85e4-4fd9bf2b9e4c">
+
+   ![7](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/f7908d80-3560-429c-a176-6d2eefd213b1)
+   
 
 3. **create_products_and_sales_tables**: Once the data is in the hdfs, I used the hiveOperator to define the sales and product tables, these files will be used to store the data that will be processed after. Is necessary to set the hive connection in airflow.
 You can check the external tables definition in the directory sql_files/definition_processed_tables.sql
-    ![hive-coonn](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/31e276ff-ea0f-4895-bd6e-766b6baccd20)
-    ![Captura de pantalla 2023-08-23 a la(s) 22 09 09](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/474f3b7f-dda0-4b40-97cc-870d1bbb6c99)
+    ![8](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/29e22d91-9aab-421a-899c-15c33511bd64)
+
+    ![9](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/c49b7ffa-de4f-411a-a7f4-f4684bad9255)
+
 
 
 4. **processing_the_data**: Once the data is in hdfs and the external tables are defined using hive, is time to process the data.
    To do that, I used Apache Spark to process the data, you can find the whole code in /mnt/airflow/dags/scripts/process_data.py.
-   ![Captura de pantalla 2023-08-23 a la(s) 22 09 16](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/5a997809-1aac-4da2-88d2-d59c01b79601)
+   ![10](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/ec91b46e-f893-42ab-a15d-e98ba9a803e0)
+
 
 
    ## HUE
@@ -81,12 +89,15 @@ You can check the external tables definition in the directory sql_files/definiti
 
    Here we can query the information for the processed product and sales information.
 
-   <img width="680" alt="Captura de pantalla 2023-08-24 a la(s) 00 30 09" src="https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/4638599c-71e7-41aa-94f1-f2ed41978ece">
+   ![11](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/0cb969b3-7e56-4e10-8558-ec13be99cdba)
 
-   <img width="680" alt="Captura de pantalla 2023-08-24 a la(s) 00 30 25" src="https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/f7e336d8-e025-4cde-a185-2e5d3641983a">
+
+   ![12](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/be29082b-5f4d-4b53-afbc-b7c976df44ac)
+
    
 ## The fact and dimension table are configured as follows.
-   ![Captura de pantalla 2023-08-24 a la(s) 00 52 11](https://github.com/Data-Engineering-101/de-101-project-artusenroute/assets/105809768/321574e1-8943-4e3d-bca4-9f0de9218b88)
+   ![13](https://github.com/ArturoMorenoSBU/NIKE-ETL/assets/34179305/82c2bfc7-fea9-4eeb-b725-24b9e656154b)
+
 
 The SQL commands to create these tables are defined in **/sql_files/create_fact_dim_tables.sql**
 
